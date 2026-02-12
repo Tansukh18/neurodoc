@@ -1,0 +1,12 @@
+# Ignore Mac system files
+.DS_Store
+
+# Ignore Python helpers
+__pycache__/
+venv/
+.env
+
+# Ignore Node modules (Frontend)
+node_modules/
+dist/
+.vite/
