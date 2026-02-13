@@ -10,3 +10,4 @@ pydantic
 sentence-transformers
 pypdf
 duckduckgo-search
+ddgs
