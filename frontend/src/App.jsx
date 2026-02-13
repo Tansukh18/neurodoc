@@ -5,7 +5,7 @@ import 'reactflow/dist/style.css';
 import dagre from 'dagre';
 import { Send, Upload, BookOpen, Brain, Network, X, Zap, Briefcase, UserCheck } from 'lucide-react';
 
-const API_URL = "http://127.0.0.1:8000";
+const API_URL = "https://neurodoc-1.onrender.com";
 
 const getLayoutedElements = (nodes, edges) => {
   const dagreGraph = new dagre.graphlib.Graph();
