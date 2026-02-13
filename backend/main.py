@@ -97,7 +97,7 @@ async def upload_pdf(file: UploadFile = File(...)):
         splits = text_splitter.split_documents(docs)
         
         embeddings = HuggingFaceInferenceAPIEmbeddings(
-    api_key=os.environ.get("HUGGINGFACE_API_KEY")
+    api_key=os.environ.get("HUGGINGFACE_API_KEY"),
     model_name="sentence-transformers/all-MiniLM-L6-v2"
 )
 
