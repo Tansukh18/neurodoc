@@ -86,6 +86,11 @@ It leverages **Retrieval-Augmented Generation (RAG)** to "memorize" uploaded PDF
 
 ---
 
+## 🔗 Deployment
+
+- **🔴 Live Web App:** [https://neurodoc.vercel.app](https://neurodoc.vercel.app)
+- **⚡ Vercel Project Dashboard:** [View on Vercel](https://vercel.com/tansukhs-projects-0b9707ac/neurodoc)
+
 ## 💻 Local Installation & Setup
 
 If you need to run this on a new computer in the future, follow these steps:
