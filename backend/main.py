@@ -6,7 +6,7 @@ import re
 from datetime import datetime
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from langchain_community.embeddings import HuggingFaceInferenceAPIEmbeddings
+from langchain_huggingface import HuggingFaceEndpointEmbeddings
 from langchain_groq import ChatGroq
 from langchain_community.vectorstores import FAISS
 from langchain_community.document_loaders import PyPDFLoader
@@ -96,10 +96,12 @@ async def upload_pdf(file: UploadFile = File(...)):
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
         splits = text_splitter.split_documents(docs)
         
-        embeddings = HuggingFaceInferenceAPIEmbeddings(
-    api_key=os.environ.get("HUGGINGFACE_API_KEY"),
-    model_name="sentence-transformers/all-MiniLM-L6-v2"
-)
+        # CHANGE THIS BLOCK
+        embeddings = HuggingFaceEndpointEmbeddings(
+            model="sentence-transformers/all-MiniLM-L6-v2",
+            task="feature-extraction",
+            huggingfacehub_api_token=os.environ.get("HUGGINGFACE_API_KEY"),
+        )
 
         vector_store = FAISS.from_documents(splits, embeddings)
         
