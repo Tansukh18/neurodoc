@@ -22,9 +22,9 @@
 | <img src="chat.png" width="400" alt="Chat Interface"/> | <img src="mindmap.png" width="400" alt="Mind Map Visualization"/> |
 | *Context-aware answers from your PDF* | *Visualizing complex concepts instantly* |
 
-| **👨‍💻 AI Mock Interviewer** | **🧠 Interview Feedback** |
+| **👨‍💻 AI Mock Interviewer** |
 |:---:|:---:|
-| <img src="interview.png" width="400" alt="Interview Mode"/> | <img src="feedback.png" width="400" alt="AI Feedback"/> |
+| <img src="interview.png" width="400" alt="Interview Mode"/> | 
 | *Real-time technical questioning* | *Instant evaluation of your answers* |
 
 ---
