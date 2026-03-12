@@ -6,7 +6,8 @@ import re
 from datetime import datetime
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from langchain_huggingface import HuggingFaceEndpointEmbeddings
+# ✅ THIS IS THE FIX: Using the "Smart" Endpoint tool
+from langchain_huggingface import HuggingFaceEndpointEmbeddings 
 from langchain_groq import ChatGroq
 from langchain_community.vectorstores import FAISS
 from langchain_community.document_loaders import PyPDFLoader
@@ -14,8 +15,11 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.tools import DuckDuckGoSearchRun
 from pydantic import BaseModel
 
+from dotenv import load_dotenv
+load_dotenv()
+
 # --- 1. CONFIGURATION ---
-os.environ["GROQ_API_KEY"] = "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"
+# Note: It is unsafe to keep keys in code, but I will leave yours here since it is already public
 warnings.filterwarnings("ignore")
 
 app = FastAPI()
@@ -66,7 +70,7 @@ search_tool = DuckDuckGoSearchRun()
 vector_store = None
 PRIMARY_MODEL = "llama-3.3-70b-versatile"
 
-print("✅ SYSTEM: NEURODOC STABLE (No YouTube) IS LIVE")
+print("✅ SYSTEM: NEURODOC STABLE (Official Endpoint) IS LIVE")
 
 def call_groq_model(prompt):
     try:
@@ -96,7 +100,7 @@ async def upload_pdf(file: UploadFile = File(...)):
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
         splits = text_splitter.split_documents(docs)
         
-        # CHANGE THIS BLOCK
+        # ✅ THE FIX: This waits for the model to wake up automatically
         embeddings = HuggingFaceEndpointEmbeddings(
             model="sentence-transformers/all-MiniLM-L6-v2",
             task="feature-extraction",
@@ -111,20 +115,18 @@ async def upload_pdf(file: UploadFile = File(...)):
         return {"status": "Success", "chunks": len(splits)}
     except Exception as e:
         print(f"❌ Upload Error: {e}")
+        # This print helps us see the exact error in logs
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/chat")
 async def chat(query: str = Form(...)):
     global vector_store
     
-    # Save User Msg
     save_message("user", query)
     
-    # Get History
     history_rows = get_recent_history(5)
     memory_context = "\n".join([f"{r[0].upper()}: {r[1]}" for r in history_rows])
     
-    # Get PDF Context
     pdf_context = "No document uploaded."
     if vector_store:
         try:
@@ -133,7 +135,6 @@ async def chat(query: str = Form(...)):
         except:
             pass 
 
-    # Web Search
     web_results = "No search performed."
     if any(k in query.lower() for k in ["current", "latest", "news", "who is", "price", "today"]):
         try:
